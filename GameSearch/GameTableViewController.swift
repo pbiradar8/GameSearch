@@ -10,31 +10,72 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+struct game {
+    let name: String
+    let image: UIImage
+    let info: String
+}
 class GameTableViewController: UITableViewController {
     
-    var gameText = String()
+    @IBOutlet var tableview: UITableView!
     
-    var url = "http://www.giantbomb.com/api/search/?"
+    var gameText = String()
+    var url = "http://www.giantbomb.com/api/search?"
+    var games = [game]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getGames()
+        self.tableview.delegate = self
+        self.tableview.dataSource = self
     }
     
     func getGames() {
-        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game"]
+        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"1", "limit":"10"]
         
         Alamofire.request(url, method: .get, parameters: params)
             .validate()
             .responseJSON { response in
                 guard response.result.isSuccess else {
+                    print("There is no Response from the API call")
                     return
                 }
                 
-                print(response)
+                do {
+                    let json = try JSON(data: response.data!)
+                    
+                    if let results = json["results"].array {
+                        for i in 0..<results.count {
+                            let result = results[i]
+                            
+                            if let name = result["name"].string {
+                                if let info = result["deck"].string {
+                                    if let imageURL = result["image"]["small_url"].string {
+                                        
+                                        let mainImageURL = URL(string: imageURL )
+                                        let mainImageData = NSData(contentsOf: mainImageURL!)
+                                        if let mainImage = UIImage(data: (mainImageData as Data?)!) {
+                                            self.games.append(game.init(name: name, image: mainImage, info: info))
+                                            print(self.games)
+                                            self.tableview.reloadData()
+                                        }
+                                    }
+                                }
+                                else {
+                                    print("Game has no Info")
+                                }
+                            }
+                            else {
+                                print("Game has no Name")
+                            }
+                        }
+                    }
+                    
+                } catch {
+                    print(error)
+                }
         }
-        
     }
     // MARK: - Table view data source
     
@@ -45,15 +86,26 @@ class GameTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return games.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
         
-        // Configure the cell...
+        let gameName  = cell.viewWithTag(1)as!UILabel
+        gameName.text = games[indexPath.row].name
+        
+        let gameinfo  = cell.viewWithTag(2)as!UITextView
+        gameinfo.text = games[indexPath.row].info
+        
+        let gameImage  = cell.viewWithTag(3)as!UIImageView
+        gameImage.image = games[indexPath.row].image
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 400.0
     }
     
 }
