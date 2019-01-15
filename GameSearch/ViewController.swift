@@ -10,11 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var gameText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
 
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "gotoGames", let gamesTableVC = segue.destination as? GameTableViewController {
+            if let gameName  = gameText.text {
+                gamesTableVC.gameText = gameName
+            }
+        }
+    }
+    
+    @objc func hideKeyboard() { 
+        view.endEditing(true)
+    }
+    
 }
 
