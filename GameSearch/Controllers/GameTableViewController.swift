@@ -25,7 +25,7 @@ class GameTableViewController: UITableViewController {
     var games = [game]()
     
     var page = 1
-    var limit = 10
+    var limit = 20
     var totalGames = Int()
     
     var activityIndicator = UIActivityIndicatorView()
@@ -38,83 +38,90 @@ class GameTableViewController: UITableViewController {
         
         tableview.separatorStyle = .none
         
-        startActivityIndicator()
         getGames(page: 1)
     }
     
-    func getGames(page: Int) {        
-        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"\(page)", "limit":"10"]
+    func getGames(page: Int) {
+        print("GetGames Called \(page) times")
+        startActivityIndicator()
+        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"\(page)", "limit":"\(limit)"]
         
         Alamofire.request(url, method: .get, parameters: params)
             .validate()
             .responseJSON { response in
-                guard response.result.isSuccess else {
-                    print("There is no Response from the API call")
-                    return
-                }
-                
                 do {
                     let json = try JSON(data: response.data!)
-                    if let totalGames = json["number_of_total_results"].int {
-                        self.totalGames = totalGames
-                        if let results = json["results"].array {
-                            for i in 0..<results.count {
-                                let result = results[i]
-                                
-                                if let name = result["name"].string {
-                                    if let info = result["deck"].string {
-                                        if let imageURL = result["image"]["small_url"].string {
-                                            
-                                            let mainImageURL = URL(string: imageURL )
-                                            let mainImageData = NSData(contentsOf: mainImageURL!)
-                                            if let mainImage = UIImage(data: (mainImageData as Data?)!) {
-                                                
-                                                self.games.append(game.init(name: name, image: mainImage, info: info))
-                                                self.tableview.separatorStyle = .singleLine
-                                                self.tableview.reloadData()
-                                                self.stopActivityIndicator()
+                    if let jsonStatusCode = json["status_code"].int {
+                        if jsonStatusCode == 1 {
+                            if let totalGames = json["number_of_total_results"].int {
+                                if totalGames == 0 {
+                                    self.creatSimpleAlert(message: "There are no games with this names")
+                                }
+                                self.totalGames = totalGames
+
+                                if let results = json["results"].array {
+                                    for i in 0..<results.count {
+                                        let result = results[i]
+                                        
+                                        if let name = result["name"].string {
+                                            if let info = result["deck"].string {
+                                                if let imageURL = result["image"]["small_url"].string {
+                                                    
+                                                    let mainImageURL = URL(string: imageURL )
+                                                    let mainImageData = NSData(contentsOf: mainImageURL!)
+                                                    if let mainImage = UIImage(data: (mainImageData as Data?)!) {
+                                                        
+                                                        self.games.append(game.init(name: name, image: mainImage, info: info))
+                                                        self.tableview.separatorStyle = .singleLine
+                                                        self.tableview.reloadData()
+                                                        self.stopActivityIndicator()
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                    else {
-                                        print("Game has no Info")
-                                    }
-                                }
-                                else {
-                                    print("Game has no Name")
                                 }
                             }
+                        } else {
+                            self.creatSimpleAlert(message: json["error"].string!)
                         }
                     }
-                    
                 } catch {
-                    print(error)
+                    self.creatSimpleAlert(message: "Could not connect to game search engine")
                 }
         }
     }
     
+    func creatSimpleAlert(message: String) {
+        let alert = UIAlertController(title: "Uh oh..", message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+        self.stopActivityIndicator()
+    }
+    
     func startActivityIndicator() {
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
+        activityIndicator.hidesWhenStopped = false
+        activityIndicator = UIActivityIndicatorView(frame: CGRect(x: self.view.frame.width/2 - 20, y: self.view.frame.height * 0.80, width: 40, height: 40))
         activityIndicator.style = .gray
         view.addSubview(activityIndicator)
-        
+        activityIndicator.bringSubviewToFront(self.view)
         activityIndicator.startAnimating()
     }
     
     func stopActivityIndicator() {
         self.activityIndicator.stopAnimating()
+        activityIndicator.hidesWhenStopped = true
     }
     
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return games.count
     }
     
