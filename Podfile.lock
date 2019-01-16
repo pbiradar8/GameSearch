@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (4.8.0)
+  - ReachabilitySwift (4.3.0)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
   - Alamofire
+  - ReachabilitySwift
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - ReachabilitySwift
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 18877812770f78ecaa2fc75295b5ca643dc0d135
+PODFILE CHECKSUM: 79a236d9be2812d87d71a8f988264bcbdc7dcbed
 
 COCOAPODS: 1.5.3

@@ -8,6 +8,7 @@ target 'GameSearch' do
   # Pods for GameSearch
   pod 'Alamofire'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'ReachabilitySwift'
 
   target 'GameSearchTests' do
     inherit! :search_paths
