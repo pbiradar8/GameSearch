@@ -91,6 +91,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09C4708F21EEBDDD003C1B71 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				09F68E4B21EE6007005658C2 /* Main.storyboard */,
+				09F68E5021EE6008005658C2 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		09C4709021EEBEA6003C1B71 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				09F68E4921EE6007005658C2 /* ViewController.swift */,
+				09C4708D21EE7040003C1B71 /* GameTableViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		09C4709121EEBEF3003C1B71 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				09F68E5321EE6008005658C2 /* Info.plist */,
+				09F68E4E21EE6008005658C2 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		09F68E3B21EE6007005658C2 = {
 			isa = PBXGroup;
 			children = (
@@ -117,12 +144,9 @@
 			isa = PBXGroup;
 			children = (
 				09F68E4721EE6007005658C2 /* AppDelegate.swift */,
-				09F68E4921EE6007005658C2 /* ViewController.swift */,
-				09C4708D21EE7040003C1B71 /* GameTableViewController.swift */,
-				09F68E4B21EE6007005658C2 /* Main.storyboard */,
-				09F68E4E21EE6008005658C2 /* Assets.xcassets */,
-				09F68E5021EE6008005658C2 /* LaunchScreen.storyboard */,
-				09F68E5321EE6008005658C2 /* Info.plist */,
+				09C4709021EEBEA6003C1B71 /* Controllers */,
+				09C4708F21EEBDDD003C1B71 /* Storyboards */,
+				09C4709121EEBEF3003C1B71 /* Resources */,
 			);
 			path = GameSearch;
 			sourceTree = "<group>";
