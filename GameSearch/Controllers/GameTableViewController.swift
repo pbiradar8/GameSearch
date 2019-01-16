@@ -73,6 +73,7 @@ class GameTableViewController: UITableViewController {
                                                     
                                                     self.games.append(game.init(name: name, image: mainImage, info: info))
                                                     DispatchQueue.main.async {
+                                                        self.stopActivityIndicator()
                                                         self.tableview.reloadData()
                                                     }
                                                 }
@@ -163,17 +164,15 @@ class GameTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == games.count - 1 {
             //We are at last cell
-            startActivityIndicator()
 
             if games.count < totalGames {
+                startActivityIndicator()
                 //Load more Games
                 page = page + 1
                 DispatchQueue.global().async {
                     Thread.sleep(forTimeInterval: 3)
                     self.getGames(page: self.page)
                 }
-            } else {
-                self.stopActivityIndicator()
             }
         }
     }
