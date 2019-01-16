@@ -39,6 +39,8 @@ class GameTableViewController: UITableViewController {
         self.tableview.dataSource = self
         
         tableview.separatorStyle = .none
+        tableview.rowHeight = UITableView.automaticDimension
+        tableview.estimatedRowHeight = 400
         
         checkInternetConnection()
         startActivityIndicator()
@@ -74,6 +76,7 @@ class GameTableViewController: UITableViewController {
                                                     self.games.append(game.init(name: name, image: mainImage, info: info))
                                                     DispatchQueue.main.async {
                                                         self.stopActivityIndicator()
+                                                        self.tableview.separatorStyle = .singleLine
                                                         self.tableview.reloadData()
                                                     }
                                                 }
@@ -152,7 +155,7 @@ class GameTableViewController: UITableViewController {
         let gameName  = cell.viewWithTag(1)as!UILabel
         gameName.text = games[indexPath.row].name
         
-        let gameinfo  = cell.viewWithTag(2)as!UITextView
+        let gameinfo  = cell.viewWithTag(2)as!UILabel
         gameinfo.text = games[indexPath.row].info
         
         let gameImage  = cell.viewWithTag(3)as!UIImageView
@@ -177,9 +180,9 @@ class GameTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //Set a specified height to show the required information about the Games in tht cell
-        return 400.0
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        //Set a specified height to show the required information about the Games in tht cell
+//        return 400.0
+//    }
     
 }
