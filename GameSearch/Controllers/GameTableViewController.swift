@@ -15,6 +15,7 @@ struct game {
     let image: UIImage
     let info: String
 }
+
 class GameTableViewController: UITableViewController {
     
     @IBOutlet var tableview: UITableView!
@@ -23,15 +24,22 @@ class GameTableViewController: UITableViewController {
     var url = "http://www.giantbomb.com/api/search?"
     var games = [game]()
     
+    var activityIndicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getGames()
         self.tableview.delegate = self
         self.tableview.dataSource = self
+        
+        tableview.separatorStyle = .none
+        getGames()
     }
     
     func getGames() {
+        
+        startActivityIndicator()
+        
         let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"1", "limit":"10"]
         
         Alamofire.request(url, method: .get, parameters: params)
@@ -58,7 +66,11 @@ class GameTableViewController: UITableViewController {
                                         if let mainImage = UIImage(data: (mainImageData as Data?)!) {
                                             self.games.append(game.init(name: name, image: mainImage, info: info))
                                             print(self.games)
+                                            
+                                            self.stopActivityIndicator()
+                                            self.tableview.separatorStyle = .singleLine
                                             self.tableview.reloadData()
+                                            
                                         }
                                     }
                                 }
@@ -77,6 +89,22 @@ class GameTableViewController: UITableViewController {
                 }
         }
     }
+    
+    func startActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        view.addSubview(activityIndicator)
+        
+        activityIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
+    }
+    
+    func stopActivityIndicator() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
