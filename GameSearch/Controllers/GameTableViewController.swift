@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Reachability
 
 struct game {
     let name: String
@@ -29,6 +30,7 @@ class GameTableViewController: UITableViewController {
     var totalGames = Int()
     
     let spinner = UIActivityIndicatorView(style: .whiteLarge)
+    let reachability = Reachability()!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,7 @@ class GameTableViewController: UITableViewController {
         
         tableview.separatorStyle = .none
         
+        checkInternetConnection()
         startActivityIndicator()
         getGames(page: 1)
     }
@@ -105,6 +108,26 @@ class GameTableViewController: UITableViewController {
     
     func stopActivityIndicator() {
         self.spinner.isHidden = true
+    }
+    
+    func checkInternetConnection() {
+        reachability.whenReachable = { reachability in
+            if reachability.connection == .wifi {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        }
+        reachability.whenUnreachable = { _ in
+            self.creatSimpleAlert(message: "No Internet Connection. Please conncet to the Internet and try again")
+            self.reachability.stopNotifier()
+        }
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
     }
     
     // MARK: - Table view data source
