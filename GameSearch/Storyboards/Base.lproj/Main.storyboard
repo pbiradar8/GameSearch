@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kef-Iy-TET">
-                                <rect key="frame" x="20" y="451" width="335" height="30"/>
+                                <rect key="frame" x="20" y="477" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -31,7 +31,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ae8-t8-pHR">
-                                <rect key="frame" x="20" y="532" width="335" height="40"/>
+                                <rect key="frame" x="20" y="547" width="335" height="40"/>
                                 <color key="backgroundColor" red="0.3427170474720459" green="0.52847933587693285" blue="0.9813808692893401" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="imv-tp-Kj8"/>
@@ -52,7 +52,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type the name of the game to search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSO-SF-sHP">
-                                <rect key="frame" x="50.5" y="416" width="274" height="19"/>
+                                <rect key="frame" x="50.5" y="442" width="274" height="19"/>
                                 <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -64,15 +64,15 @@
                             <constraint firstItem="3m7-Mh-AQJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5DR-L3-OG0"/>
                             <constraint firstItem="eLr-04-ubs" firstAttribute="top" secondItem="3m7-Mh-AQJ" secondAttribute="bottom" constant="30" id="74P-57-xeV"/>
                             <constraint firstItem="Kef-Iy-TET" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CfH-td-QDU"/>
-                            <constraint firstItem="ae8-t8-pHR" firstAttribute="top" secondItem="Kef-Iy-TET" secondAttribute="bottom" constant="51" id="Dbz-Wu-boY"/>
+                            <constraint firstItem="ae8-t8-pHR" firstAttribute="top" secondItem="Kef-Iy-TET" secondAttribute="bottom" constant="40" id="Dbz-Wu-boY"/>
                             <constraint firstItem="ae8-t8-pHR" firstAttribute="trailing" secondItem="Kef-Iy-TET" secondAttribute="trailing" id="Itd-Jo-9b2"/>
                             <constraint firstItem="3m7-Mh-AQJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="Ouo-3P-9Di"/>
                             <constraint firstItem="Kef-Iy-TET" firstAttribute="top" secondItem="TSO-SF-sHP" secondAttribute="bottom" constant="16" id="VeS-7m-S7e"/>
                             <constraint firstItem="eLr-04-ubs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wda-Wz-TfT"/>
                             <constraint firstItem="Kef-Iy-TET" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="dFe-8h-ZOd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ae8-t8-pHR" secondAttribute="bottom" constant="95" id="hk3-cV-ETZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Kef-Iy-TET" secondAttribute="trailing" constant="20" id="qbf-fd-f7Z"/>
                             <constraint firstItem="TSO-SF-sHP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="x9d-K0-syc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ae8-t8-pHR" secondAttribute="bottom" constant="80" id="zTM-O6-f61"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
