@@ -24,6 +24,10 @@ class GameTableViewController: UITableViewController {
     var url = "http://www.giantbomb.com/api/search?"
     var games = [game]()
     
+    var page = 1
+    var limit = 10
+    var totalGames = Int()
+    
     var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
@@ -33,14 +37,13 @@ class GameTableViewController: UITableViewController {
         self.tableview.dataSource = self
         
         tableview.separatorStyle = .none
-        getGames()
-    }
-    
-    func getGames() {
         
         startActivityIndicator()
-        
-        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"1", "limit":"10"]
+        getGames(page: 1)
+    }
+    
+    func getGames(page: Int) {        
+        let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"\(page)", "limit":"10"]
         
         Alamofire.request(url, method: .get, parameters: params)
             .validate()
@@ -52,34 +55,34 @@ class GameTableViewController: UITableViewController {
                 
                 do {
                     let json = try JSON(data: response.data!)
-                    
-                    if let results = json["results"].array {
-                        for i in 0..<results.count {
-                            let result = results[i]
-                            
-                            if let name = result["name"].string {
-                                if let info = result["deck"].string {
-                                    if let imageURL = result["image"]["small_url"].string {
-                                        
-                                        let mainImageURL = URL(string: imageURL )
-                                        let mainImageData = NSData(contentsOf: mainImageURL!)
-                                        if let mainImage = UIImage(data: (mainImageData as Data?)!) {
-                                            self.games.append(game.init(name: name, image: mainImage, info: info))
-                                            print(self.games)
+                    if let totalGames = json["number_of_total_results"].int {
+                        self.totalGames = totalGames
+                        if let results = json["results"].array {
+                            for i in 0..<results.count {
+                                let result = results[i]
+                                
+                                if let name = result["name"].string {
+                                    if let info = result["deck"].string {
+                                        if let imageURL = result["image"]["small_url"].string {
                                             
-                                            self.stopActivityIndicator()
-                                            self.tableview.separatorStyle = .singleLine
-                                            self.tableview.reloadData()
-                                            
+                                            let mainImageURL = URL(string: imageURL )
+                                            let mainImageData = NSData(contentsOf: mainImageURL!)
+                                            if let mainImage = UIImage(data: (mainImageData as Data?)!) {
+                                                
+                                                self.games.append(game.init(name: name, image: mainImage, info: info))
+                                                self.tableview.separatorStyle = .singleLine
+                                                self.tableview.reloadData()
+                                                self.stopActivityIndicator()
+                                            }
                                         }
+                                    }
+                                    else {
+                                        print("Game has no Info")
                                     }
                                 }
                                 else {
-                                    print("Game has no Info")
+                                    print("Game has no Name")
                                 }
-                            }
-                            else {
-                                print("Game has no Name")
                             }
                         }
                     }
@@ -97,12 +100,10 @@ class GameTableViewController: UITableViewController {
         view.addSubview(activityIndicator)
         
         activityIndicator.startAnimating()
-        UIApplication.shared.beginIgnoringInteractionEvents()
     }
     
     func stopActivityIndicator() {
         self.activityIndicator.stopAnimating()
-        UIApplication.shared.endIgnoringInteractionEvents()
     }
     
     // MARK: - Table view data source
@@ -130,6 +131,18 @@ class GameTableViewController: UITableViewController {
         gameImage.image = games[indexPath.row].image
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == games.count - 1 {
+            //We are at last cell
+            if games.count < totalGames {
+                //Load more Games
+                page = page + 1
+
+                getGames(page: page)
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
