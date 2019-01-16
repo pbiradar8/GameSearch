@@ -150,6 +150,8 @@ class GameTableViewController: UITableViewController {
                     Thread.sleep(forTimeInterval: 3)
                     self.getGames(page: self.page)
                 }
+            } else {
+                self.stopActivityIndicator()
             }
         }
     }
