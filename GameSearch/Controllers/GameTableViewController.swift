@@ -28,7 +28,7 @@ class GameTableViewController: UITableViewController {
     var limit = 20
     var totalGames = Int()
     
-    let spinner = UIActivityIndicatorView(style: .gray)
+    let spinner = UIActivityIndicatorView(style: .whiteLarge)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,7 +105,7 @@ class GameTableViewController: UITableViewController {
     func startActivityIndicator() {
         spinner.startAnimating()
         spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-        
+        spinner.color = .blue
         self.tableView.tableFooterView = spinner
         self.tableView.tableFooterView?.isHidden = false
     }
