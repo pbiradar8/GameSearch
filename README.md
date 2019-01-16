@@ -16,6 +16,5 @@ The app should take input from the user, query the database, and display any res
 
 Here are the screenshots of the application after the completion 
 
-
-![game1](https://user-images.githubusercontent.com/22299639/51279886-45f0f780-19ac-11e9-978f-c4e1bbd411d6.png)
-![game2](https://user-images.githubusercontent.com/22299639/51279885-45f0f780-19ac-11e9-959c-09e8c9e97899.png)
+![game1](https://user-images.githubusercontent.com/22299639/51280179-04ad1780-19ad-11e9-9588-7304112f70d8.png)
+![game2](https://user-images.githubusercontent.com/22299639/51280182-0676db00-19ad-11e9-89a2-81587fe3338f.png)
