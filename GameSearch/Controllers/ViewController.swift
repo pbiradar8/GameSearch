@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
     }
@@ -26,6 +27,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //method to hide the keyboard
     @objc func hideKeyboard() { 
         view.endEditing(true)
     }

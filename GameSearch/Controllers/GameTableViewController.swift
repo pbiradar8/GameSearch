@@ -45,6 +45,7 @@ class GameTableViewController: UITableViewController {
         getGames(page: 1)
     }
     
+    //Method to call the Giantbomb API
     func getGames(page: Int) {
         let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"\(page)", "limit":"\(limit)"]
         
@@ -89,6 +90,7 @@ class GameTableViewController: UITableViewController {
             }
     }
     
+    //Method to create simple alert with the given text and OK button
     func creatSimpleAlert(message: String) {
         let alert = UIAlertController(title: "Uh oh..", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
@@ -98,6 +100,7 @@ class GameTableViewController: UITableViewController {
         self.stopActivityIndicator()
     }
     
+    //Method to show Activity Indicator when needed
     func startActivityIndicator() {
         spinner.startAnimating()
         spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
@@ -106,10 +109,12 @@ class GameTableViewController: UITableViewController {
         self.tableView.tableFooterView?.isHidden = false
     }
     
+    //Method to hide Activity Indicator when needed
     func stopActivityIndicator() {
         self.spinner.isHidden = true
     }
     
+    //Method to check internet connection whne user is using the application
     func checkInternetConnection() {
         reachability.whenReachable = { reachability in
             if reachability.connection == .wifi {
@@ -142,6 +147,7 @@ class GameTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
         
+        //set the lables or imageview with proper data for the particular cell
         let gameName  = cell.viewWithTag(1)as!UILabel
         gameName.text = games[indexPath.row].name
         
@@ -173,6 +179,7 @@ class GameTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //Set a specified height to show the required information about the Games in tht cell
         return 400.0
     }
     
