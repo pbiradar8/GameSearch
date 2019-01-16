@@ -43,8 +43,6 @@ class GameTableViewController: UITableViewController {
     }
     
     func getGames(page: Int) {
-        
-        print("GetGames Called \(page) times")
         let params = ["api_key":"41a61a447f50f94f33f1f66c67e6a7eab9f9a00a", "format":"json", "query":"\(gameText)", "resources":"game", "page":"\(page)", "limit":"\(limit)"]
         
         Alamofire.request(self.url, method: .get, parameters: params)
@@ -64,19 +62,14 @@ class GameTableViewController: UITableViewController {
                                         for i in 0..<results.count {
                                             let result = results[i]
                                             
-                                            if let name = result["name"].string {
-                                                if let info = result["deck"].string {
-                                                    if let imageURL = result["image"]["small_url"].string {
-                                                        
-                                                        let mainImageURL = URL(string: imageURL )
-                                                        let mainImageData = NSData(contentsOf: mainImageURL!)
-                                                        if let mainImage = UIImage(data: (mainImageData as Data?)!) {
-                                                            
-                                                            self.games.append(game.init(name: name, image: mainImage, info: info))
-                                                            DispatchQueue.main.async {
-                                                                self.tableview.reloadData()
-                                                            }
-                                                        }
+                                            if let name = result["name"].string, let info = result["deck"].string, let imageURL = result["image"]["small_url"].string {
+                                                let mainImageURL = URL(string: imageURL )
+                                                let mainImageData = NSData(contentsOf: mainImageURL!)
+                                                if let mainImage = UIImage(data: (mainImageData as Data?)!) {
+                                                    
+                                                    self.games.append(game.init(name: name, image: mainImage, info: info))
+                                                    DispatchQueue.main.async {
+                                                        self.tableview.reloadData()
                                                     }
                                                 }
                                             }
